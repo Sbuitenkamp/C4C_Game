@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController Controller;
-    public float Speed = 12f;
+    public float Speed = 8f;
     public float Gravity = -9.81f;
     public Transform GroundCheck;
     public float GroundDistance = 0.4f;
@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private bool IsGrounded;
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         IsGrounded = Physics.CheckSphere(GroundCheck.position, GroundDistance, GroundMask);
 
