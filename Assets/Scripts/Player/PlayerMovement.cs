@@ -5,18 +5,22 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController Controller;
-    public float Speed = 8f;
-    public float Gravity = -9.81f;
     public Transform GroundCheck;
-    public float GroundDistance = 0.4f;
     public LayerMask GroundMask;
+    public float Speed = 5f;
+    public float Gravity = -9.81f;
+    public float GroundDistance = 0.4f;
+    public bool Controlling = true;
 
     private Vector3 Velocity;
     private bool IsGrounded;
 
     // Update is called once per frame
-    void FixedUpdate()
+    public void Update()
     {
+        // lock movement if doing activity
+        if (!Controlling) return;
+        
         IsGrounded = Physics.CheckSphere(GroundCheck.position, GroundDistance, GroundMask);
 
         if (IsGrounded && Velocity.y < 0) Velocity.y = -2f;

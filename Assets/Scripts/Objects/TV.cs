@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +12,7 @@ public class TV : MonoBehaviour, Interactable
 //        Screen = GetComponentInChildren<Plane>();
     }
 
-    public void Interact()
+    public void Interact(PlayerMovement controller, FirstPersonCamera playerCamera)
     {
         Screen.gameObject.SetActive(!Active);
         Active = !Active;

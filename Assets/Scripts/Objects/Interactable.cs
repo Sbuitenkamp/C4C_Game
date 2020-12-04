@@ -1,4 +1,4 @@
 public interface Interactable
 {
-    void Interact();
+    void Interact(PlayerMovement controller, FirstPersonCamera playerCamera);
 }

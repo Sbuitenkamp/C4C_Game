@@ -1,14 +1,26 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Door : MonoBehaviour, Interactable
 {
-    public int Target = 0;
+    public GameObject TeleportLocation;
 
-    public void Interact()
+    private Transform PlayerTransform;
+    private bool Teleport = false;
+
+    public void FixedUpdate()
     {
-        SceneManager.LoadScene(Target);
+        if (!Teleport) return;
+        PlayerTransform.position = TeleportLocation.transform.position;
+        PlayerTransform.rotation = TeleportLocation.transform.rotation;
+        Teleport = false;
+    }
+
+    public void Interact(PlayerMovement controller, FirstPersonCamera playerCamera)
+    {
+        PlayerTransform = playerCamera.PlayerBody;
+        Teleport = true;
     }
 }

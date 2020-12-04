@@ -2,29 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Image = UnityEngine.UIElements.Image;
 
 public class FirstPersonCamera : MonoBehaviour
 {
-    public float MouseSensitivity = 3f;
-    public Transform PlayerBody;
-    public float DistanceToSee = 3.0f;
     public Text Hand;
-    
+    public Transform PlayerBody;
+    public float MouseSensitivity = 3f;
+    public float DistanceToSee = 3.0f;
+    public bool Looking = true;
+    public bool Hovering = false;
+
     private RaycastHit Hit;
-    private bool Hovering = false;
-    private bool HoverCheck = false;
+    private PlayerMovement Controller;
     private float XRotation = 0f;
-    
+    private bool HoverCheck = false;
+
     // Start is called before the first frame update
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Hand.gameObject.SetActive(false);
+        Controller = gameObject.GetComponentInParent<PlayerMovement>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        // lock cursor if doing activity
+        if (!Looking) return;
+        
         float mouseX = Input.GetAxis("Mouse X") * MouseSensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * MouseSensitivity;
 
@@ -42,9 +49,7 @@ public class FirstPersonCamera : MonoBehaviour
             if (!HoverCheck) Hand.gameObject.SetActive(true);
             HoverCheck = true;
             
-            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("e")) {
-                Hit.collider.gameObject.GetComponent<Interactable>().Interact();
-            }
+            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetKeyDown("space") || Input.GetKeyDown("e")) Hit.collider.gameObject.GetComponent<Interactable>().Interact(Controller, this);
         } else {
             Hand.gameObject.SetActive(false);
             HoverCheck = false;
