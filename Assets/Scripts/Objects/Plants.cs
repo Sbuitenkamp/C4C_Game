@@ -13,6 +13,7 @@ public class Plants : MonoBehaviour, Interactable
     private List<Plant> PlantsToWater;
     private GameObject CamPosition;
     private GameObject TargetPosition;
+    private GameObject WateringCan;
     private GameObject UI;
     private PlayerMovement PlayerController;
     private FirstPersonCamera PlayerCamera;
@@ -26,6 +27,7 @@ public class Plants : MonoBehaviour, Interactable
 
     public void Start()
     {
+        WateringCan = GameObject.Find("WateringCan");
         UI = GameObject.Find("UserInterface");
         PlantsToWater = new List<Plant>(gameObject.GetComponentsInChildren<Plant>());
         PlantsToWater.Sort((a, b) => a.PlaceInOrder.CompareTo(b.PlaceInOrder));
@@ -43,9 +45,9 @@ public class Plants : MonoBehaviour, Interactable
             if (Physics.Raycast(ray, out hit, 100)) {
                 Plant plant = hit.collider.GetComponent<Plant>();
                 if (plant == null) return;
-                Debug.Log(plant.PlaceInOrder);
                 plant.gameObject.GetComponent<MeshCollider>().enabled = false;
                 Watered.Add(plant);
+                Water(plant);
                 if (Watered.Count > 2) CheckOrder();
             }
         }
@@ -84,6 +86,7 @@ public class Plants : MonoBehaviour, Interactable
             TargetPosition.transform.position = new Vector3(-13.3f, 25.6f, -39.1f);
             TargetPosition.transform.rotation = Quaternion.Euler(15f, -90f, 0);
         }
+        
         PlayerController = controller;
         PlayerCamera = playerCamera;
         Cam = PlayerController.gameObject.GetComponentInChildren<Camera>();
@@ -133,5 +136,18 @@ public class Plants : MonoBehaviour, Interactable
         gameObject.GetComponent<BoxCollider>().enabled = true;
         Cursor.lockState = CursorLockMode.Locked;
         Destroy(TargetPosition);
+    }
+
+    private void Water(Plant plant)
+    {
+        Vector3 plantPosition = plant.transform.position;
+        Vector3 abovePlant = new Vector3(plantPosition.x, plantPosition.y + 0.5f, plantPosition.z - 0.3f);
+
+        WateringCan.transform.position = abovePlant;
+        WateringCan.transform.Rotate(0, 0, -45f);
+
+        Quaternion targetRotation = new Quaternion(WateringCan.transform.rotation.x - 0.5f, WateringCan.transform.rotation.y + 0.5f, WateringCan.transform.rotation.z, WateringCan.transform.rotation.w);
+
+        WateringCan.transform.rotation = Quaternion.Lerp(WateringCan.transform.rotation, targetRotation, 2f);
     }
 }

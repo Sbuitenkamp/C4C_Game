@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
+    <e p="C:\Users\istev\.Rider2019.1\config\consoles\db" t="IncludeRecursive" />
+    <e p="C:\Users\istev\.Rider2019.1\config\extensions" t="IncludeRecursive" />
     <e p="C:\Users\istev\.Rider2019.1\system\extResources" t="IncludeRecursive" />
     <e p="C:\Users\istev\.Rider2019.1\system\resharper-host\local\Transient\ReSharperHost\v191\SolutionCaches\_C4C_Game.-1408345288.00" t="ExcludeRecursive" />
     <e p="D:\School\20-21\8D_Games\C4C_Game" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
-        <e p="Graphics" t="Include">
-          <e p="Shaders" t="Include">
-            <e p="Outline.shader" t="Include" />
+        <e p="Resources" t="Include">
+          <e p="Graphics" t="Include">
+            <e p="Shaders" t="Include">
+              <e p="Outline.shader" t="Include" />
+            </e>
           </e>
         </e>
         <e p="Scripts" t="Include">
@@ -20,7 +24,9 @@
             <e p="Interactable.cs" t="Include" />
             <e p="Plant.cs" t="Include" />
             <e p="Plants.cs" t="Include" />
+            <e p="StickyNote.cs" t="Include" />
             <e p="TV.cs" t="Include" />
+            <e p="TV_Screen.cs" t="Include" />
           </e>
           <e p="Player" t="Include">
             <e p="FirstPersonCamera.cs" t="Include" />
