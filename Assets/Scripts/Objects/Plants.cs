@@ -127,6 +127,8 @@ public class Plants : MonoBehaviour, Interactable
 
     private void ResetCamera()
     {
+        // test
+        
         Focussing = false;
         UnFocussing = true;
         UI.GetComponentInChildren<Image>().enabled = true;
