@@ -142,12 +142,13 @@ public class Plants : MonoBehaviour, Interactable
     {
         Vector3 plantPosition = plant.transform.position;
         Vector3 abovePlant = new Vector3(plantPosition.x, plantPosition.y + 0.5f, plantPosition.z - 0.3f);
-
+        
         WateringCan.transform.position = abovePlant;
-        WateringCan.transform.Rotate(0, 0, -45f);
+        WateringCan.transform.Rotate(0, 0, 90f);
 
-        Quaternion targetRotation = new Quaternion(WateringCan.transform.rotation.x - 0.5f, WateringCan.transform.rotation.y + 0.5f, WateringCan.transform.rotation.z, WateringCan.transform.rotation.w);
+        Quaternion wateringCanRotation = WateringCan.transform.rotation;
+        Quaternion targetRotation = new Quaternion(wateringCanRotation.x - 0.5f, wateringCanRotation.y + 0.5f, wateringCanRotation.z, wateringCanRotation.w);
 
-        WateringCan.transform.rotation = Quaternion.Lerp(WateringCan.transform.rotation, targetRotation, 2f);
+        WateringCan.transform.rotation = Quaternion.Lerp(wateringCanRotation, targetRotation, 2f);
     }
 }

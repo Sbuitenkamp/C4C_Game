@@ -7,15 +7,19 @@ using UnityEngine.UI;
 
 public class StickyNote : MonoBehaviour, Interactable
 {
+    public string StickyTextContent;
+
     private Image Sticky;
     private Text StickyText;
     private Button CloseButton;
     private PlayerMovement PlayerController;
     private FirstPersonCamera PlayerCamera;
-    public string StickyTextContent;
+    private AudioSource AudioPlayer;
 
     public void Start()
     {
+        AudioPlayer = gameObject.GetComponentInChildren<AudioSource>();
+        
         GameObject UI = GameObject.Find("UserInterface");
         Sticky = UI.GetComponentsInChildren<Image>(true).ToList().Find(x => x.name == "StickyNoteImage");
         StickyText = UI.GetComponentsInChildren<Text>(true).ToList().Find(x => x.name == "StickyText");
@@ -25,6 +29,7 @@ public class StickyNote : MonoBehaviour, Interactable
     
     public void Interact(PlayerMovement controller, FirstPersonCamera playerCamera)
     {
+        AudioPlayer.Play();
         PlayerController = controller;
         PlayerCamera = playerCamera;
 
