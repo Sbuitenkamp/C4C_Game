@@ -14,9 +14,6 @@
           </e>
         </e>
         <e p="Scripts" t="Include">
-          <e p="Misc" t="Include">
-            <e p="GameSystem.cs" t="Include" />
-          </e>
           <e p="Objects" t="Include">
             <e p="Door.cs" t="Include" />
             <e p="Interactable.cs" t="Include" />
@@ -29,6 +26,9 @@
           <e p="Player" t="Include">
             <e p="FirstPersonCamera.cs" t="Include" />
             <e p="PlayerMovement.cs" t="Include" />
+          </e>
+          <e p="UI" t="Include">
+            <e p="Fade.cs" t="Include" />
           </e>
         </e>
       </e>

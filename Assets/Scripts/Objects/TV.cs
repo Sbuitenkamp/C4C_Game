@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class TV : MonoBehaviour, Interactable
 {
-    public bool Active = true;
-    public GameObject Screen;
+    public TV_Screen Screen;
 
     private void Start()
     {
-//        Screen = GetComponentInChildren<Plane>();
+        Screen = GetComponentInChildren<TV_Screen>();
     }
 
     public void Interact(PlayerMovement controller, FirstPersonCamera playerCamera)
     {
-        Screen.gameObject.SetActive(!Active);
-        Active = !Active;
+        Screen.StopTv();
+        gameObject.tag = "Untagged";
     }
 }

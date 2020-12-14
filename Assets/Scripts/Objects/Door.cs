@@ -9,6 +9,10 @@ public class Door : MonoBehaviour, Interactable
 {
     public GameObject TeleportLocation;
 
+    private Fade Fader;
+    private AudioSource AudioPlayer;
+    private AudioClip Open;
+//    private AudioClip Close;
     private Transform PlayerTransform;
     private Image FadeImage;
     private bool Teleport = false;
@@ -16,19 +20,11 @@ public class Door : MonoBehaviour, Interactable
 
     public void Start()
     {
-        List<Image> images = new List<Image>(FindObjectsOfType<Image>(true));
-        FadeImage = images.Find(x => x.name == "Fade");
-    }
-
-    public void Update()
-    {
-        // screen fading to black while teleporting
-        if (Fading) {
-            FadeImage.CrossFadeAlpha(1, 2.0f, false);
-        } else {
-            FadeImage.CrossFadeAlpha(0, 2.0f, false);
-        }
-
+        AudioPlayer = gameObject.GetComponent<AudioSource>();
+        GameObject ui = GameObject.Find("UserInterface");
+        Fader = ui.gameObject.GetComponentInChildren<Fade>();
+        Open = Resources.Load<AudioClip>("Audio/Deuropendicht");
+//        Close = Resources.Load<AudioClip>("Audio/Deurdicht");
     }
 
     public void FixedUpdate()
@@ -43,6 +39,17 @@ public class Door : MonoBehaviour, Interactable
     {
         PlayerTransform = playerCamera.PlayerBody;
         Teleport = true;
-        Fading = true;
+        
+//        Fader.StartFade();
+//        StartCoroutine(Interaction());
+        AudioPlayer.PlayOneShot(Open);
     }
+
+//    private IEnumerator Interaction()
+//    {
+//        AudioPlayer.PlayOneShot(Open);
+//        yield return new WaitForSeconds(.3f);
+//        AudioPlayer.PlayOneShot(Close);
+//        FadeImage.CrossFadeAlpha(0, 2.0f, false);
+//    }
 }

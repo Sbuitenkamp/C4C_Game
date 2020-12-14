@@ -19,7 +19,7 @@ public class FirstPersonCamera : MonoBehaviour
     private bool HoverCheck = false;
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Hand.gameObject.SetActive(false);
@@ -27,7 +27,7 @@ public class FirstPersonCamera : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         // lock cursor if doing activity
         if (!Looking) return;

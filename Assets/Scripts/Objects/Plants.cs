@@ -15,12 +15,16 @@ public class Plants : MonoBehaviour, Interactable
     private GameObject TargetPosition;
     private GameObject WateringCan;
     private GameObject UI;
+    private Vector3 WateringCanPosition;
+    private Quaternion WateringCanRotation;
     private PlayerMovement PlayerController;
     private FirstPersonCamera PlayerCamera;
     private List<Plant> Watered = new List<Plant>();
+    private AudioSource AudioPlayer;
     private bool Interacting = false;
     private bool Focussing = false;
     private bool UnFocussing = false;
+    private bool Watering = false;
     private float Speed = 3f;
     private float LerpTime = 1f;
     private float CurrentLerpingTime;
@@ -28,6 +32,11 @@ public class Plants : MonoBehaviour, Interactable
     public void Start()
     {
         WateringCan = GameObject.Find("WateringCan");
+        AudioPlayer = WateringCan.GetComponent<AudioSource>();
+        
+        WateringCanPosition = WateringCan.transform.position;
+        WateringCanRotation = WateringCan.transform.rotation;
+        
         UI = GameObject.Find("UserInterface");
         PlantsToWater = new List<Plant>(gameObject.GetComponentsInChildren<Plant>());
         PlantsToWater.Sort((a, b) => a.PlaceInOrder.CompareTo(b.PlaceInOrder));
@@ -37,18 +46,17 @@ public class Plants : MonoBehaviour, Interactable
     {
         if (!Interacting) return;
         
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0) && !Watering) {
+            Watering = true;
             Ray ray = Cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
 
             // if the ray hits
-            if (Physics.Raycast(ray, out hit, 100)) {
+            if (Physics.Raycast(ray, out RaycastHit hit, 100)) {
                 Plant plant = hit.collider.GetComponent<Plant>();
                 if (plant == null) return;
                 plant.gameObject.GetComponent<MeshCollider>().enabled = false;
                 Watered.Add(plant);
                 Water(plant);
-                if (Watered.Count > 2) CheckOrder();
             }
         }
 
@@ -71,11 +79,10 @@ public class Plants : MonoBehaviour, Interactable
             Transform camTransform = Cam.transform;
             camTransform.position = Vector3.Lerp(camTransform.position, CamPosition.transform.position, t);
             camTransform.rotation = Quaternion.Lerp(camTransform.rotation, CamPosition.transform.rotation, t);
-            
-            if (t >= 1) {
-                UnFocussing = false;
-                Destroy(CamPosition);
-            }
+
+            if (!(t >= 1)) return;
+            UnFocussing = false;
+            Destroy(CamPosition);
         }
     }
 
@@ -127,8 +134,6 @@ public class Plants : MonoBehaviour, Interactable
 
     private void ResetCamera()
     {
-        // test
-        
         Focussing = false;
         UnFocussing = true;
         UI.GetComponentInChildren<Image>().enabled = true;
@@ -146,11 +151,27 @@ public class Plants : MonoBehaviour, Interactable
         Vector3 abovePlant = new Vector3(plantPosition.x, plantPosition.y + 0.5f, plantPosition.z - 0.3f);
         
         WateringCan.transform.position = abovePlant;
-        WateringCan.transform.Rotate(0, 0, 90f);
+        WateringCan.transform.Rotate(0, 0, -45f);
+        WateringCan.transform.Rotate(-50f, 0, 0);
+        
+        AudioPlayer.Play();
+        
+        StartCoroutine(AddWater());
+//        Quaternion wateringCanRotation = WateringCan.transform.rotation;
+//        Quaternion targetRotation = new Quaternion(wateringCanRotation.x - 0.5f, wateringCanRotation.y + 0.5f, wateringCanRotation.z, wateringCanRotation.w);
 
-        Quaternion wateringCanRotation = WateringCan.transform.rotation;
-        Quaternion targetRotation = new Quaternion(wateringCanRotation.x - 0.5f, wateringCanRotation.y + 0.5f, wateringCanRotation.z, wateringCanRotation.w);
+//        WateringCan.transform.rotation = Quaternion.Lerp(wateringCanRotation, targetRotation, 2f);
+    }
 
-        WateringCan.transform.rotation = Quaternion.Lerp(wateringCanRotation, targetRotation, 2f);
+    private IEnumerator AddWater()
+    {
+        yield return new WaitForSeconds(1);
+        WateringCan.transform.position = WateringCanPosition;
+        WateringCan.transform.rotation = WateringCanRotation;
+        
+        AudioPlayer.Stop();
+        
+        Watering = false;
+        if (Watered.Count > 2) CheckOrder();
     }
 }
