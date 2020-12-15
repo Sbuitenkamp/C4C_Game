@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Door : MonoBehaviour, Interactable
 {
     public GameObject TeleportLocation;
+    public GameObject WanderLocation;
 
     private Fade Fader;
     private AudioSource AudioPlayer;
@@ -16,7 +16,8 @@ public class Door : MonoBehaviour, Interactable
     private Transform PlayerTransform;
     private Image FadeImage;
     private bool Teleport = false;
-    private bool Fading = false;
+    private bool Wandering = false;
+//    private bool Fading = false;
 
     public void Start()
     {
@@ -30,8 +31,14 @@ public class Door : MonoBehaviour, Interactable
     public void FixedUpdate()
     {
         if (!Teleport) return;
-        PlayerTransform.position = TeleportLocation.transform.position;
-        PlayerTransform.rotation = TeleportLocation.transform.rotation;
+        if (Wandering) {
+            PlayerTransform.position = WanderLocation.transform.position;
+            PlayerTransform.rotation = WanderLocation.transform.rotation;
+        } else {
+            PlayerTransform.position = TeleportLocation.transform.position;
+            PlayerTransform.rotation = TeleportLocation.transform.rotation;    
+        }
+        
         Teleport = false;
     }
 
@@ -42,6 +49,7 @@ public class Door : MonoBehaviour, Interactable
         
 //        Fader.StartFade();
 //        StartCoroutine(Interaction());
+        if (AudioPlayer.isPlaying) AudioPlayer.Stop();
         AudioPlayer.PlayOneShot(Open);
     }
 
@@ -52,4 +60,10 @@ public class Door : MonoBehaviour, Interactable
 //        AudioPlayer.PlayOneShot(Close);
 //        FadeImage.CrossFadeAlpha(0, 2.0f, false);
 //    }
+
+    // chance to move to the wrong room
+    private void Wander()
+    {
+        
+    }
 }

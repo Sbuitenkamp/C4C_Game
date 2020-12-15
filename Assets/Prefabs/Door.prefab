@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TeleportLocation: {fileID: 0}
+  WanderLocation: {fileID: 0}
 --- !u!82 &4685800306663236546
 AudioSource:
   m_ObjectHideFlags: 0
@@ -198,7 +199,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.6
       inSlope: 0
       outSlope: 0
       tangentMode: 0

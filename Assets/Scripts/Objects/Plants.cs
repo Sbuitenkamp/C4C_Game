@@ -86,6 +86,13 @@ public class Plants : MonoBehaviour, Interactable
         }
     }
 
+    public void OnTriggerEnter(Collider other)
+    {
+        if (!other.CompareTag("Player")) return;
+        Speech playerVoice = other.gameObject.GetComponent<Speech>();
+        playerVoice.Talk("oja, ik moet de planten nog water geven.", null);
+    }
+
     public void Interact(PlayerMovement controller, FirstPersonCamera playerCamera)
     {
         if (TargetPosition == null) {
@@ -124,6 +131,7 @@ public class Plants : MonoBehaviour, Interactable
         if (PlantsToWater.SequenceEqual(Watered)) {
             gameObject.tag = "Untagged";
             Interacting = false;
+            Destroy(gameObject.GetComponent<CapsuleCollider>());
             ResetCamera();
         } else {
             // reset the plants
