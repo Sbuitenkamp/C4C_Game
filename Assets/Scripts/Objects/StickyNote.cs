@@ -40,7 +40,9 @@ public class StickyNote : MonoBehaviour, Interactable
         Sticky.gameObject.SetActive(true);
         StickyText.gameObject.SetActive(true);
         CloseButton.gameObject.SetActive(true);
-        StickyText.text = StickyTextContent;
+        StickyText.text = StickyTextContent.Replace("\\n","\n");
+        
+        PlayerController.gameObject.GetComponent<Speech>().Talk("hmm", Resources.Load<AudioClip>("Audio/stilst"));
     }
 
     private void Close()

@@ -12,14 +12,15 @@ public class Speech : MonoBehaviour
     public void Start()
     {
         GameObject ui = GameObject.Find("UserInterface");
+        Voice = gameObject.GetComponentInParent<AudioSource>();
         SubtitleBar = ui.GetComponentsInChildren<Text>(true).ToList().Find(x => x.name == "Subtitles");
     }
 
     public void Talk(string message, AudioClip speech)
     {
         SubtitleBar.text = "Oma Jansje: " + message;
-//        Voice.PlayOneShot(speech);
-//        StartCoroutine(StopTalking());
+        Voice.PlayOneShot(speech);
+        StartCoroutine(StopTalking());
     }
 
     private IEnumerator StopTalking()

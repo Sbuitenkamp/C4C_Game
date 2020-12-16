@@ -15,8 +15,7 @@ public class TV : MonoBehaviour, Interactable
     public void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
-        Speech playerVoice = other.gameObject.GetComponent<Speech>();
-        playerVoice.Talk("er is tegenwoordig niks leuks meer op tv, laat ik hem uitzetten.", null);
+        other.gameObject.GetComponent<Speech>().Talk("er is tegenwoordig niks leuks meer op tv, laat ik hem uitzetten.", Resources.Load<AudioClip>("Audio/stilst"));
     }
 
     public void Interact(PlayerMovement controller, FirstPersonCamera playerCamera)
