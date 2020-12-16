@@ -21,6 +21,7 @@ public class Plants : MonoBehaviour, Interactable
     private FirstPersonCamera PlayerCamera;
     private List<Plant> Watered = new List<Plant>();
     private AudioSource AudioPlayer;
+    private Speech PlayerVoice;
     private bool Interacting = false;
     private bool Focussing = false;
     private bool UnFocussing = false;
@@ -45,7 +46,6 @@ public class Plants : MonoBehaviour, Interactable
     public void Update()
     {
         if (!Interacting) return;
-        
         if (Input.GetMouseButtonDown(0) && !Watering) {
             Watering = true;
             Ray ray = Cam.ScreenPointToRay(Input.mousePosition);
@@ -59,7 +59,6 @@ public class Plants : MonoBehaviour, Interactable
                 Water(plant);
             }
         }
-
         if (Input.GetButtonDown("Cancel")) ResetCamera();
     }
 
@@ -80,17 +79,19 @@ public class Plants : MonoBehaviour, Interactable
             camTransform.position = Vector3.Lerp(camTransform.position, CamPosition.transform.position, t);
             camTransform.rotation = Quaternion.Lerp(camTransform.rotation, CamPosition.transform.rotation, t);
 
-            if (!(t >= 1)) return;
-            UnFocussing = false;
-            Destroy(CamPosition);
+            if (t >= 1) {
+                Destroy(TargetPosition);
+                Destroy(CamPosition);
+                UnFocussing = false;
+            }
         }
     }
 
     public void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
-        Speech playerVoice = other.gameObject.GetComponent<Speech>();
-        playerVoice.Talk("oja, ik moet de planten nog water geven.", null);
+        PlayerVoice = other.gameObject.GetComponent<Speech>();
+        PlayerVoice.Talk("oja, ik moet de planten nog water geven.", Resources.Load<AudioClip>("Audio/stilst"));
     }
 
     public void Interact(PlayerMovement controller, FirstPersonCamera playerCamera)
@@ -115,28 +116,37 @@ public class Plants : MonoBehaviour, Interactable
         PlayerController.Controlling = false;
         PlayerCamera.Looking = false;
         
-        // Disable UI
+        // disable UI
         PlayerCamera.Hand.gameObject.SetActive(false);
         UI.GetComponentInChildren<Image>().enabled = false;
         
-        // Disable camera movement
+        // disable camera movement
         Cursor.lockState = CursorLockMode.Confined;
         gameObject.GetComponent<BoxCollider>().enabled = false;
         Focussing = true;
         Interacting = true;
+        
+        // voice clip
+        if (PlayerVoice == null) PlayerVoice = controller.gameObject.GetComponent<Speech>();
+        PlayerVoice.Talk("oja ik had hier een bepaalde volgorde voor, die heb ik hier ergens opgeschreven.", Resources.Load<AudioClip>("Audio/stilst"));
     }
 
     private void CheckOrder()
     {
         if (PlantsToWater.SequenceEqual(Watered)) {
+            // make sure interaction becomes unable
             gameObject.tag = "Untagged";
             Interacting = false;
             Destroy(gameObject.GetComponent<CapsuleCollider>());
+            // give the player feedback
+            PlayerVoice.Talk("zo, die zien er nu al een stuk beter uit.", Resources.Load<AudioClip>("Audio/stilst"));
             ResetCamera();
         } else {
             // reset the plants
             foreach (Plant wateredPlant in Watered) wateredPlant.gameObject.GetComponent<MeshCollider>().enabled = true;
             Watered = new List<Plant>();
+            // give the player feedback
+            PlayerVoice.Talk("deze volgorde klopt niet.", Resources.Load<AudioClip>("Audio/stilst"));
         }
     }
 
@@ -144,13 +154,14 @@ public class Plants : MonoBehaviour, Interactable
     {
         Focussing = false;
         UnFocussing = true;
+        Interacting = false;
+        foreach (Plant wateredPlant in Watered) wateredPlant.gameObject.GetComponent<MeshCollider>().enabled = true;
+        Watered = new List<Plant>();
         UI.GetComponentInChildren<Image>().enabled = true;
         PlayerController.Controlling = true;
         PlayerCamera.Looking = true;
-        UI.GetComponentInChildren<Image>().enabled = true;
         gameObject.GetComponent<BoxCollider>().enabled = true;
         Cursor.lockState = CursorLockMode.Locked;
-        Destroy(TargetPosition);
     }
 
     private void Water(Plant plant)

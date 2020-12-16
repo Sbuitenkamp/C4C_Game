@@ -30,6 +30,8 @@ public class TV_Screen : MonoBehaviour
         StopCoroutine(Coroutine);
         ScreenRenderer.material.SetTexture("_MainTex", Off);
         AudioPlayer.Stop();
+        
+        GameObject.Find("Doorbell").GetComponent<AudioSource>().Play();
     }
 
     private void ChangeScreen()
