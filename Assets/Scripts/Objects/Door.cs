@@ -9,31 +9,30 @@ public class Door : MonoBehaviour, Interactable
     public GameObject TeleportLocation;
     public GameObject WanderLocation;
 
-    private Fade Fader;
     private AudioSource AudioPlayer;
     private AudioClip Open;
-//    private AudioClip Close;
+    private AudioClip Close;
     private Transform PlayerTransform;
-    private Image FadeImage;
     private bool Teleport = false;
     private bool Wandering = false;
-//    private bool Fading = false;
+    private int Wandered = 0;
 
     public void Start()
     {
         AudioPlayer = gameObject.GetComponent<AudioSource>();
         GameObject ui = GameObject.Find("UserInterface");
-        Fader = ui.gameObject.GetComponentInChildren<Fade>();
-        Open = Resources.Load<AudioClip>("Audio/Deuropendicht");
-//        Close = Resources.Load<AudioClip>("Audio/Deurdicht");
+        Open = Resources.Load<AudioClip>("Audio/Deuropen2");
+        Close = Resources.Load<AudioClip>("Audio/Deurdicht2");
     }
 
     public void FixedUpdate()
     {
         if (!Teleport) return;
+        Wander();
         if (Wandering) {
             PlayerTransform.position = WanderLocation.transform.position;
             PlayerTransform.rotation = WanderLocation.transform.rotation;
+            Wandering = !Wandering;
         } else {
             PlayerTransform.position = TeleportLocation.transform.position;
             PlayerTransform.rotation = TeleportLocation.transform.rotation;    
@@ -46,24 +45,25 @@ public class Door : MonoBehaviour, Interactable
     {
         PlayerTransform = playerCamera.PlayerBody;
         Teleport = true;
-        
-//        Fader.StartFade();
-//        StartCoroutine(Interaction());
+
         if (AudioPlayer.isPlaying) AudioPlayer.Stop();
-        AudioPlayer.PlayOneShot(Open);
+        StartCoroutine(Interaction());
     }
 
-//    private IEnumerator Interaction()
-//    {
-//        AudioPlayer.PlayOneShot(Open);
-//        yield return new WaitForSeconds(.3f);
-//        AudioPlayer.PlayOneShot(Close);
-//        FadeImage.CrossFadeAlpha(0, 2.0f, false);
-//    }
+    private IEnumerator Interaction()
+    {
+        AudioPlayer.PlayOneShot(Open);
+        yield return new WaitForSeconds(.5f);
+        AudioPlayer.PlayOneShot(Close);
+    }
 
     // chance to move to the wrong room
     private void Wander()
     {
-        
+        // scripted for the demo
+        if (gameObject.name == "KitchenDoor" && Wandered < 1) {
+            Wandering = true;
+            Wandered++;
+        }
     }
 }

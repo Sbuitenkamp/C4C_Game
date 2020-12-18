@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public float Speed = 5f;
     public float Gravity = -9.81f;
     public float GroundDistance = 0.4f;
-    public bool Controlling = true;
+    public bool Controlling;
 
     private Vector3 Velocity;
     private bool IsGrounded;

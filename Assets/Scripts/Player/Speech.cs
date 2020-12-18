@@ -13,6 +13,7 @@ public class Speech : MonoBehaviour
     {
         GameObject ui = GameObject.Find("UserInterface");
         Voice = gameObject.GetComponentInParent<AudioSource>();
+        Debug.Log(Voice);
         SubtitleBar = ui.GetComponentsInChildren<Text>(true).ToList().Find(x => x.name == "Subtitles");
     }
 
