@@ -40,6 +40,8 @@ public class StickyNote : MonoBehaviour, Interactable
         Sticky.gameObject.SetActive(true);
         StickyText.gameObject.SetActive(true);
         CloseButton.gameObject.SetActive(true);
+        
+        // allow usage of \n in the fields to make newlines easier to implement
         StickyText.text = StickyTextContent.Replace("\\n","\n");
         
         PlayerController.gameObject.GetComponent<Speech>().Talk("hmm", Resources.Load<AudioClip>("Audio/stilst"));

@@ -10,25 +10,58 @@ public class FirstPersonCamera : MonoBehaviour
     public Transform PlayerBody;
     public float MouseSensitivity = 3f;
     public float DistanceToSee = 3.0f;
-    public bool Looking = true;
-    public bool Hovering = false;
+    public bool Looking;
+    public bool Hovering;
 
     private RaycastHit Hit;
     private PlayerMovement Controller;
+    private Vector3 SittingDownPosition = new Vector3(-11.6f, 25.1f, -44.4f);
+    private Quaternion SittingDownRotation = new Quaternion(0, -0.7f, 0, -0.7f);
+    private Vector3 StandingUpPosition;
+    private Quaternion StandingUpRotation;
+    private float CurrentLerpingTime;
     private float XRotation = 0f;
     private bool HoverCheck = false;
+    private bool StandingUp = false;
 
-    // Start is called before the first frame update
     public void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Hand.gameObject.SetActive(false);
+        Looking = false;
+        
         Controller = gameObject.GetComponentInParent<PlayerMovement>();
+        Controller.Controlling = false;
+        
+        StandingUpPosition = gameObject.transform.position;
+        StandingUpRotation = gameObject.transform.rotation;
+
+        gameObject.transform.position = SittingDownPosition;
+        gameObject.transform.rotation = SittingDownRotation;
+
+        StandingUp = true;
     }
 
-    // Update is called once per frame
     public void Update()
     {
+        // stand up at the beginning of the game.
+        if (StandingUp) {
+            float speed = .1f;
+            float lerpTime = 4f;
+            CurrentLerpingTime = Mathf.Clamp01(CurrentLerpingTime + speed * Time.deltaTime);
+            
+            float t = CurrentLerpingTime / lerpTime;
+            
+            gameObject.transform.position = Vector3.Slerp(gameObject.transform.position, StandingUpPosition, t);
+            gameObject.transform.rotation = Quaternion.Slerp(gameObject.transform.rotation, StandingUpRotation, t);
+
+            if (t >= .03f) {
+                StandingUp = false;
+                Looking = true;
+                Controller.Controlling = true;
+            }
+        }
+        
         // lock cursor if doing activity
         if (!Looking) return;
         

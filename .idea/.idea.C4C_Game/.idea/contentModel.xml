@@ -17,6 +17,8 @@
           <e p="Objects" t="Include">
             <e p="Door.cs" t="Include" />
             <e p="Doorbell.cs" t="Include" />
+            <e p="DoorEnd.cs" t="Include" />
+            <e p="HallwayTrigger.cs" t="Include" />
             <e p="Interactable.cs" t="Include" />
             <e p="Plant.cs" t="Include" />
             <e p="Plants.cs" t="Include" />
@@ -30,7 +32,7 @@
             <e p="Speech.cs" t="Include" />
           </e>
           <e p="UI" t="Include">
-            <e p="Fade.cs" t="Include" />
+            <e p="IntroVideo.cs" t="Include" />
           </e>
         </e>
       </e>

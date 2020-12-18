@@ -26,8 +26,8 @@ public class Plants : MonoBehaviour, Interactable
     private bool Focussing = false;
     private bool UnFocussing = false;
     private bool Watering = false;
-    private float Speed = 3f;
-    private float LerpTime = 1f;
+    private float Speed = .5f;
+    private float LerpTime = 5f;
     private float CurrentLerpingTime;
 
     public void Start()
@@ -66,11 +66,18 @@ public class Plants : MonoBehaviour, Interactable
     {
         // move cam in front of task.
         if (Focussing) {
-            Transform camTransform = Cam.transform;
-            camTransform.position = Vector3.Lerp(camTransform.position, TargetPosition.transform.position, Speed * Time.deltaTime);
-            camTransform.rotation = Quaternion.Lerp(camTransform.rotation, TargetPosition.transform.rotation, Speed * Time.deltaTime);
+            CurrentLerpingTime = Mathf.Clamp01(CurrentLerpingTime + Speed * Time.deltaTime);
+            float t = CurrentLerpingTime / LerpTime;
             
-            if (camTransform.position == TargetPosition.transform.position && camTransform.rotation == TargetPosition.transform.rotation) Focussing = false;
+            Transform camTransform = Cam.transform;
+            camTransform.position = Vector3.Lerp(camTransform.position, TargetPosition.transform.position, t);
+            camTransform.rotation = Quaternion.Lerp(camTransform.rotation, TargetPosition.transform.rotation, t);
+
+            if (t >= .1f) {
+                CurrentLerpingTime = 0;
+                Interacting = true;
+                Focussing = false;
+            }
         } else if (UnFocussing) {
             CurrentLerpingTime = Mathf.Clamp01(CurrentLerpingTime + Speed * Time.deltaTime);
             float t = CurrentLerpingTime / LerpTime;
@@ -79,9 +86,10 @@ public class Plants : MonoBehaviour, Interactable
             camTransform.position = Vector3.Lerp(camTransform.position, CamPosition.transform.position, t);
             camTransform.rotation = Quaternion.Lerp(camTransform.rotation, CamPosition.transform.rotation, t);
 
-            if (t >= 1) {
+            if (t >= .1f) {
                 Destroy(TargetPosition);
                 Destroy(CamPosition);
+                CurrentLerpingTime = 0;
                 UnFocussing = false;
             }
         }
@@ -124,7 +132,6 @@ public class Plants : MonoBehaviour, Interactable
         Cursor.lockState = CursorLockMode.Confined;
         gameObject.GetComponent<BoxCollider>().enabled = false;
         Focussing = true;
-        Interacting = true;
         
         // voice clip
         if (PlayerVoice == null) PlayerVoice = controller.gameObject.GetComponent<Speech>();
@@ -140,6 +147,7 @@ public class Plants : MonoBehaviour, Interactable
             Destroy(gameObject.GetComponent<CapsuleCollider>());
             // give the player feedback
             PlayerVoice.Talk("zo, die zien er nu al een stuk beter uit.", Resources.Load<AudioClip>("Audio/stilst"));
+            GameObject.Find("Doorbell").GetComponent<AudioSource>().Play();
             ResetCamera();
         } else {
             // reset the plants
