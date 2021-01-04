@@ -18,7 +18,7 @@ public class Doorbell : MonoBehaviour
     {
         if (AudioPlayer.isPlaying) StartCoroutine(StartTalking());
         if (Talk) {
-            PlayerVoice.Talk("oh daar zul je Hans hebben, laat ik naar de voordeur gaan.", Resources.Load<AudioClip>("Audio/stilst"));
+            PlayerVoice.Talk("oh daar zul je Hans hebben, laat ik naar de voordeur gaan.", Resources.Load<AudioClip>("Audio/VoiceLines/Oh_Hans"));
             Talk = false;
         }
     }

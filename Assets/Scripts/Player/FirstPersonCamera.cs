@@ -19,31 +19,35 @@ public class FirstPersonCamera : MonoBehaviour
     private Quaternion SittingDownRotation = new Quaternion(0, -0.7f, 0, -0.7f);
     private Vector3 StandingUpPosition;
     private Quaternion StandingUpRotation;
+    private Speech PlayerVoice;
     private float CurrentLerpingTime;
     private float XRotation = 0f;
     private bool HoverCheck = false;
     private bool StandingUp = false;
+    private bool SittingDown = true;
 
     public void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Hand.gameObject.SetActive(false);
         Looking = false;
-        
+        PlayerVoice = gameObject.GetComponentInParent<Speech>();
+
         Controller = gameObject.GetComponentInParent<PlayerMovement>();
         Controller.Controlling = false;
-        
+
         StandingUpPosition = gameObject.transform.position;
         StandingUpRotation = gameObject.transform.rotation;
 
         gameObject.transform.position = SittingDownPosition;
         gameObject.transform.rotation = SittingDownRotation;
 
-        StandingUp = true;
+        PlayerVoice.Talk("er is tegenwoordig niks leuks meer op tv, laat ik hem uitzetten.", Resources.Load<AudioClip>("Audio/VoiceLines/Tv_Off"));
     }
 
     public void Update()
     {
+        if (!PlayerVoice.Voice.isPlaying && SittingDown) StandingUp = true;
         // stand up at the beginning of the game.
         if (StandingUp) {
             float speed = .1f;
@@ -57,8 +61,10 @@ public class FirstPersonCamera : MonoBehaviour
 
             if (t >= .03f) {
                 StandingUp = false;
+                SittingDown = false;
                 Looking = true;
                 Controller.Controlling = true;
+                PlayerVoice.Talk("Oef, vroeger ging opstaan toch een stuk gemakkelijker.", Resources.Load<AudioClip>("Audio/VoiceLines/Oef_Chair"));
             }
         }
         

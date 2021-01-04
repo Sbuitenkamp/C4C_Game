@@ -99,7 +99,7 @@ public class Plants : MonoBehaviour, Interactable
     {
         if (!other.CompareTag("Player")) return;
         PlayerVoice = other.gameObject.GetComponent<Speech>();
-        PlayerVoice.Talk("oja, ik moet de planten nog water geven.", Resources.Load<AudioClip>("Audio/stilst"));
+        PlayerVoice.Talk("oja, ik moet de planten nog water geven.", Resources.Load<AudioClip>("Audio/VoiceLines/Oh_Plants"));
     }
 
     public void Interact(PlayerMovement controller, FirstPersonCamera playerCamera)
@@ -135,7 +135,7 @@ public class Plants : MonoBehaviour, Interactable
         
         // voice clip
         if (PlayerVoice == null) PlayerVoice = controller.gameObject.GetComponent<Speech>();
-        PlayerVoice.Talk("oja ik had hier een bepaalde volgorde voor, die heb ik hier ergens opgeschreven.", Resources.Load<AudioClip>("Audio/stilst"));
+        PlayerVoice.Talk("Daar heb ik een bepaalde volgorde voor, die heb ik ergens opgeschreven.", Resources.Load<AudioClip>("Audio/VoiceLines/Plants_Order"));
     }
 
     private void CheckOrder()
@@ -146,7 +146,7 @@ public class Plants : MonoBehaviour, Interactable
             Interacting = false;
             Destroy(gameObject.GetComponent<CapsuleCollider>());
             // give the player feedback
-            PlayerVoice.Talk("zo, die zien er nu al een stuk beter uit.", Resources.Load<AudioClip>("Audio/stilst"));
+            PlayerVoice.Talk("zo, die zien er nu al een stuk beter uit.", Resources.Load<AudioClip>("Audio/VoiceLines/Zo_Plants"));
             GameObject.Find("Doorbell").GetComponent<AudioSource>().Play();
             ResetCamera();
         } else {
@@ -154,7 +154,7 @@ public class Plants : MonoBehaviour, Interactable
             foreach (Plant wateredPlant in Watered) wateredPlant.gameObject.GetComponent<MeshCollider>().enabled = true;
             Watered = new List<Plant>();
             // give the player feedback
-            PlayerVoice.Talk("deze volgorde klopt niet.", Resources.Load<AudioClip>("Audio/stilst"));
+            PlayerVoice.Talk("deze volgorde klopt niet.", Resources.Load<AudioClip>("Audio/VoiceLines/Plants_Order_Wrong"));
         }
     }
 

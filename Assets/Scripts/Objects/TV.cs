@@ -12,12 +12,6 @@ public class TV : MonoBehaviour, Interactable
         Screen = GetComponentInChildren<TV_Screen>();
     }
 
-    public void OnTriggerEnter(Collider other)
-    {
-        if (!other.CompareTag("Player")) return;
-        other.gameObject.GetComponent<Speech>().Talk("er is tegenwoordig niks leuks meer op tv, laat ik hem uitzetten.", Resources.Load<AudioClip>("Audio/stilst"));
-    }
-
     public void Interact(PlayerMovement controller, FirstPersonCamera playerCamera)
     {
         Screen.StopTv();

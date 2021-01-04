@@ -6,9 +6,10 @@ using UnityEngine.UI;
 
 public class Speech : MonoBehaviour
 {
-    private Text SubtitleBar;
-    private AudioSource Voice;
+    public AudioSource Voice { get; set; }
     
+    private Text SubtitleBar;
+
     public void Start()
     {
         GameObject ui = GameObject.Find("UserInterface");
