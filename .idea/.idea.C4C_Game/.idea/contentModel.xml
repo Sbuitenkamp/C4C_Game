@@ -33,6 +33,7 @@
           </e>
           <e p="UI" t="Include">
             <e p="IntroVideo.cs" t="Include" />
+            <e p="OutroVideo.cs" t="Include" />
           </e>
         </e>
       </e>
