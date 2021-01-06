@@ -9,19 +9,16 @@ public class Door : MonoBehaviour, Interactable
     public GameObject TeleportLocation;
     public GameObject WanderLocation;
 
-    private AudioSource AudioPlayer { get; set; }
-    private AudioClip Open { get; set; }
-    private AudioClip Close { get; set; }
-    private Transform PlayerTransform { get; set; }
-    private bool Teleport { get; set; }
-    private bool Wandering { get; set; }
-    private int Wandered { get; set; }
+    private AudioSource AudioPlayer;
+    private AudioClip Open;
+    private AudioClip Close;
+    private Transform PlayerTransform;
+    private bool Teleport = false;
+    private bool Wandering = false;
+    private int Wandered = 0;
 
     public void Start()
     {
-        Teleport = false;
-        Wandering = false;
-        Wandered = 0;
         AudioPlayer = gameObject.GetComponent<AudioSource>();
         GameObject ui = GameObject.Find("UserInterface");
         Open = Resources.Load<AudioClip>("Audio/Deuropen2");

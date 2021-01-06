@@ -9,37 +9,29 @@ using Image = UnityEngine.UI.Image;
 
 public class Plants : MonoBehaviour, Interactable
 {
-    private Camera Cam { get; set; }
-    private List<Plant> PlantsToWater { get; set; }
-    private GameObject CamPosition { get; set; }
-    private GameObject TargetPosition { get; set; }
-    private GameObject WateringCan { get; set; }
-    private GameObject UI { get; set; }
-    private Vector3 WateringCanPosition { get; set; }
-    private Quaternion WateringCanRotation { get; set; }
-    private PlayerMovement PlayerController { get; set; }
-    private FirstPersonCamera PlayerCamera { get; set; }
-    private AudioSource AudioPlayer { get; set; }
-    private Speech PlayerVoice { get; set; }
-    private List<Plant> Watered { get; set; }
-    private bool Interacting { get; set; }
-    private bool Focussing { get; set; }
-    private bool UnFocussing { get; set; }
-    private bool Watering { get; set; }
-    private float Speed { get; set; }
-    private float LerpTime { get; set; }
-    private float CurrentLerpingTime { get; set; }
+    private Camera Cam;
+    private List<Plant> PlantsToWater;
+    private GameObject CamPosition;
+    private GameObject TargetPosition;
+    private GameObject WateringCan;
+    private GameObject UI;
+    private Vector3 WateringCanPosition;
+    private Quaternion WateringCanRotation;
+    private PlayerMovement PlayerController;
+    private FirstPersonCamera PlayerCamera;
+    private List<Plant> Watered = new List<Plant>();
+    private AudioSource AudioPlayer;
+    private Speech PlayerVoice;
+    private bool Interacting = false;
+    private bool Focussing = false;
+    private bool UnFocussing = false;
+    private bool Watering = false;
+    private float Speed = .5f;
+    private float LerpTime = 5f;
+    private float CurrentLerpingTime;
 
     public void Start()
     {
-        Interacting = false;
-        Focussing = false;
-        UnFocussing = false;
-        Watering = false;
-        Speed = .5f;
-        LerpTime = 5f;
-        Watered = new List<Plant>();
-        
         WateringCan = GameObject.Find("WateringCan");
         AudioPlayer = WateringCan.GetComponent<AudioSource>();
         

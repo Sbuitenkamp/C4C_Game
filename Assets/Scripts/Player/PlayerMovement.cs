@@ -14,8 +14,8 @@ public class PlayerMovement : MonoBehaviour
     public float GroundDistance = 0.4f;
     public bool Controlling;
 
-    private Vector3 _velocity;
-    private bool IsGrounded { get; set; }
+    private Vector3 Velocity;
+    private bool IsGrounded;
 
     public void Update()
     {
@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
         
         IsGrounded = Physics.CheckSphere(GroundCheck.position, GroundDistance, GroundMask);
 
-        if (IsGrounded && _velocity.y < 0) _velocity.y = -2f;
+        if (IsGrounded && Velocity.y < 0) Velocity.y = -2f;
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
@@ -33,8 +33,8 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = transform1.right * x + transform1.forward * z;
 
         Controller.Move(Speed * Time.deltaTime * move);
-        _velocity.y += Gravity * Time.deltaTime;
-        Controller.Move(_velocity * Time.deltaTime);
+        Velocity.y += Gravity * Time.deltaTime;
+        Controller.Move(Velocity * Time.deltaTime);
         
         // footstep sound effect will play for as long as one of the movement keys is pressed
         if ((Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical")) && !FootSteps.isPlaying) FootSteps.Play();

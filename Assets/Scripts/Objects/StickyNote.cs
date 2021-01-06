@@ -9,12 +9,12 @@ public class StickyNote : MonoBehaviour, Interactable
 {
     public string StickyTextContent;
 
-    private Image Sticky { get; set; }
-    private Text StickyText { get; set; }
-    private Button CloseButton { get; set; }
-    private PlayerMovement PlayerController { get; set; }
-    private FirstPersonCamera PlayerCamera { get; set; }
-    private AudioSource AudioPlayer { get; set; }
+    private Image Sticky;
+    private Text StickyText;
+    private Button CloseButton;
+    private PlayerMovement PlayerController;
+    private FirstPersonCamera PlayerCamera;
+    private AudioSource AudioPlayer;
 
     public void Start()
     {

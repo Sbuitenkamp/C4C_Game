@@ -8,7 +8,7 @@ public class Speech : MonoBehaviour
 {
     public AudioSource Voice { get; set; }
     
-    private Text SubtitleBar { get; set; }
+    private Text SubtitleBar;
 
     public void Start()
     {

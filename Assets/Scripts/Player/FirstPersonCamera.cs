@@ -13,28 +13,21 @@ public class FirstPersonCamera : MonoBehaviour
     public bool Looking;
     public bool Hovering;
 
-    private RaycastHit _hit;
-    private PlayerMovement Controller { get; set; }
-    private Vector3 SittingDownPosition { get; set; }
-    private Quaternion SittingDownRotation { get; set; }
-    private Vector3 StandingUpPosition { get; set; }
-    private Quaternion StandingUpRotation { get; set; }
-    private Speech PlayerVoice { get; set; }
-    private float CurrentLerpingTime { get; set; }
-    private float XRotation { get; set; }
-    private bool HoverCheck { get; set; }
-    private bool StandingUp { get; set; }
-    private bool SittingDown { get; set; }
+    private RaycastHit Hit;
+    private PlayerMovement Controller;
+    private Vector3 SittingDownPosition = new Vector3(-11.6f, 25.1f, -44.4f);
+    private Quaternion SittingDownRotation = new Quaternion(0, -0.7f, 0, -0.7f);
+    private Vector3 StandingUpPosition;
+    private Quaternion StandingUpRotation;
+    private Speech PlayerVoice;
+    private float CurrentLerpingTime;
+    private float XRotation = 0f;
+    private bool HoverCheck = false;
+    private bool StandingUp = false;
+    private bool SittingDown = true;
 
     public void Start()
     {
-        SittingDownPosition = new Vector3(-11.6f, 25.1f, -44.4f);
-        SittingDownRotation = new Quaternion(0, -0.7f, 0, -0.7f);
-        XRotation = 0f;
-        HoverCheck = false;
-        StandingUp = false;
-        SittingDown = true;
-        
         Cursor.lockState = CursorLockMode.Locked;
         Hand.gameObject.SetActive(false);
         Looking = false;
@@ -88,14 +81,14 @@ public class FirstPersonCamera : MonoBehaviour
         PlayerBody.Rotate(Vector3.up * mouseX);
         
         // check if hovering over something interactable
-        Hovering = Physics.Raycast(transform.position,transform.forward, out _hit, DistanceToSee) && _hit.collider.gameObject.CompareTag("Interactable");
+        Hovering = Physics.Raycast(transform.position,transform.forward, out Hit, DistanceToSee) && Hit.collider.gameObject.CompareTag("Interactable");
 
         if (Hovering) {
             // show hand
             if (!HoverCheck) Hand.gameObject.SetActive(true);
             HoverCheck = true;
             
-            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetKeyDown("space") || Input.GetKeyDown("e")) _hit.collider.gameObject.GetComponent<Interactable>().Interact(Controller, this);
+            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetKeyDown("space") || Input.GetKeyDown("e")) Hit.collider.gameObject.GetComponent<Interactable>().Interact(Controller, this);
         } else {
             Hand.gameObject.SetActive(false);
             HoverCheck = false;
