@@ -11,7 +11,7 @@ public class IntroVideo : MonoBehaviour
     public GameObject VideoImage;
     public RawImage Controls;
     
-    private VideoPlayer Player;
+    private VideoPlayer Player { get; set; }
 
     public void Start()
     {

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class TV_Screen : MonoBehaviour
 {
-    private bool IsFrame1;
-    private Renderer ScreenRenderer;
-    private Texture Texture1;
-    private Texture Texture2;
-    private Texture Off;
-    private AudioSource AudioPlayer;
-    private IEnumerator Coroutine;
+    private bool IsFrame1 { get; set; }
+    private Renderer ScreenRenderer { get; set; }
+    private Texture Texture1 { get; set; }
+    private Texture Texture2 { get; set; }
+    private Texture Off { get; set; }
+    private AudioSource AudioPlayer { get; set; }
+    private IEnumerator Coroutine { get; set; }
     
     public void Start()
     {

@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Doorbell : MonoBehaviour
 {
-    private AudioSource AudioPlayer;
-    private Speech PlayerVoice;
-    private bool Talk = false;
-    private int Talked = 0;
+    private AudioSource AudioPlayer { get; set; }
+    private Speech PlayerVoice { get; set; }
+    private bool Talk { get; set; }
+    private int Talked { get; set; }
     
     public void Start()
     {
+        Talk = false;
+        Talked = 0;
         AudioPlayer = gameObject.GetComponent<AudioSource>();
         PlayerVoice = GameObject.Find("Player").GetComponent<Speech>();
     }

@@ -9,7 +9,7 @@ public class OutroVideo : MonoBehaviour
     public Text ThankYouMessage;
     public Image Background;
     
-    private VideoPlayer Player;
+    private VideoPlayer Player { get; set; }
 
     public void Start()
     {
