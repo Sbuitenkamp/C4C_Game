@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using UnityEngine.Video;
 
 public class IntroVideo : MonoBehaviour
 {
     public GameObject VideoImage;
-    public RawImage Controls;
+    public GameObject Menu;
     
     private VideoPlayer Player;
 
@@ -24,8 +20,6 @@ public class IntroVideo : MonoBehaviour
         yield return new WaitUntil(() => Player.isPlaying);
         while (Player.isPlaying) yield return null;
         VideoImage.SetActive(false);
-        Controls.enabled = true;
-        yield return new WaitForSeconds(10);
-        SceneManager.LoadScene(1);
+        Menu.SetActive(true);
     }
 }
