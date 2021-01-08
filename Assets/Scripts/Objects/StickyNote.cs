@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +16,6 @@ public class StickyNote : MonoBehaviour, Interactable
     public void Start()
     {
         AudioPlayer = gameObject.GetComponentInChildren<AudioSource>();
-        
         GameObject UI = GameObject.Find("UserInterface");
         Sticky = UI.GetComponentsInChildren<Image>(true).ToList().Find(x => x.name == "StickyNoteImage");
         StickyText = UI.GetComponentsInChildren<Text>(true).ToList().Find(x => x.name == "StickyText");

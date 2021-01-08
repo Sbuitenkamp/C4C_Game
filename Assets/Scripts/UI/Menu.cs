@@ -6,11 +6,9 @@ using UnityEngine.UI;
 public class Menu : MonoBehaviour
 {
     public RawImage Controls;
-
-    private Button StartButton;
+    public Button StartButton;
     public void Start()
     {
-        StartButton = gameObject.GetComponentInChildren<Button>();
         StartButton.onClick.AddListener(StartGame);
     }
 
