@@ -5199,7 +5199,7 @@ MonoBehaviour:
   Hand: {fileID: 491601520}
   PlayerBody: {fileID: 1636033456}
   MouseSensitivity: 1.5
-  DistanceToSee: 3
+  DistanceToSee: 1
   Looking: 1
   Hovering: 0
 --- !u!81 &836703461

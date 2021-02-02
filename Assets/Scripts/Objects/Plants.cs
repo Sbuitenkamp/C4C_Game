@@ -49,7 +49,7 @@ public class Plants : MonoBehaviour, Interactable
             Ray ray = Cam.ScreenPointToRay(Input.mousePosition);
 
             // if the ray hits
-            if (Physics.Raycast(ray, out RaycastHit hit, 100)) {
+            if (Physics.Raycast(ray, out RaycastHit hit)) {
                 Plant plant = hit.collider.GetComponent<Plant>();
                 if (plant == null) return;
                 plant.gameObject.GetComponent<MeshCollider>().enabled = false;
